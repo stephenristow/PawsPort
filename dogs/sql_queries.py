@@ -83,3 +83,15 @@ def add_new_dog(username, dog_name, bio, sex, age):
         return True
     except Exception as e:
         return False
+    
+def get_breeds():
+    connection = create_connection()
+    cursor = connection.cursor()
+    query = """
+    SELECT * FROM Breed
+"""
+    cursor.execute(query)
+    breeds = cursor.fetchal()
+    cursor.close()
+    connection.close()
+    return breeds

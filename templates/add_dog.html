@@ -45,53 +45,37 @@
 
     <p>Welcome, {{ username }}!</p>
     <a href="{% url 'logout' %}">Logout</a>
-    <a href="{% url 'add_dog' %}">Add New Dog</a>
+    <h1>Add dog</h1>
+    <!-- Add dog form -->
+    <form action="{% url 'add_dog' %}" method="post">
+        {% csrf_token %} <!-- Django requires a CSRF token for form submissions -->
+        
+        <label for="dog_name">Dog name:</label>
+        <input type="text" name="dog_name" id="dog_name" required>
 
+        <label for="bio">Bio:</label >
+        <input type="text" name="bio" id="bio" placeholder="Put whatever information here you think might be helpful for others to know about your dog, e.g. Likes to go for walks/runs, has allergies, is a rescue, etc.">
 
-    <!-- User's list of dogs -->
-    <h1>Your dogs: </h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Dog Name</th>
-                <th>Breed Name(s)</th>
-                <th>Sex</th>
-                <th>Age</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for dog in dogs %}
-            <tr>
-                <td>{{ dog.dog_name }}</td>
-                <td>{{ dog.breed_names }}</td>
-                <td>{{ dog.sex }}</td>
-                <td>{{ dog.age }}</td>
-            </tr>
+        <label for="sex">Sex:</label>
+        <select name="sex" id="sex" required>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="N">Neutered</option>
+            <option value="S">Spayed</option>
+        </select>
+
+        <label for="age">Age:</label place>
+        <input type="number" name="age" id="age" min="0" max="30" required>
+
+        <label for="breed">Breed:</label>
+        <select name="breed" id="breed" required>
+            {% for breed in breeds %}
+              <option value="{{ breed.breed_name }}">{{ breed.breed_name }}</option>
             {% endfor %}
-        </tbody>
-    </table>
-    <!-- User's friend's list of dogs -->
-    <h2>Your friends' dogs: </h2>
-    <table>
-        <thead>
-            <tr> 
-                <th>Dog Name</th>
-                <th>Breed Name(s)</th>
-                <th>Sex</th>
-                <th>Age</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for friend in friends %}
-            <tr>
-                <td>{{ friend.dog_name }}</td>
-                <td>{{ friend.breed_names }}</td>
-                <td>{{ friend.sex }}</td>
-                <td>{{ friend.age }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+        </select>
+
+        <button type="submit">Add dog</button>
+    </form>
         
 </body>
 </html>

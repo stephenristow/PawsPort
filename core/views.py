@@ -10,4 +10,4 @@ def index_view(request):
     dogs = get_dogs(username)
     friends = get_dog_friend_list(username)
 
-    return render(request, "index.html", {"dogs": dogs, "friends": friends})
+    return render(request, "index.html", {"username": username, "dogs": dogs, "friends": friends})

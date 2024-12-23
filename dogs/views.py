@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .sql_queries import get_dog, get_dog_friend_list, get_dog_list, add_new_dog
+from .sql_queries import get_dog, get_dog_friend_list, get_dog_list, add_new_dog, get_breeds
 
 def dog_profile_view(request, username, dog_name):
     dog = get_dog(username, dog_name)
@@ -20,6 +20,7 @@ def add_dog_view(request):
         sex = request.POST.get("sex")
         age = request.POST.get("age")
         add_new_dog(username, dog_name, bio, sex, age)
+        breeds = get_breeds()
         messages.success(f"Added new dog to your user. Welcome {dog_name}!")
-        return redirect("dog_profile_view", username=username, dog_name=dog_name)
-    return render(request, "add_dog")
+        return redirect("dog_profile_view", username=username, dog_name=dog_name, breeds=breeds)
+    return render(request, "add_dog.html")
