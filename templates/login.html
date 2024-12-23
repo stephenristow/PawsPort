@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login</h1>
+
+    <!-- Displaying messages (equivalent of Flask's flash messages) -->
+    {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Login form -->
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %} <!-- Django requires a CSRF token for form submissions -->
+        
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+
+        <button type="submit">Login</button>
+    </form>
+
+</body>
+</html>

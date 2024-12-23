@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+</head>
+<body>
+    <h1>Sign up</h1>
+
+    <!-- Displaying messages (equivalent of Flask's flash messages) -->
+    {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Sign up form -->
+    <form action="{% url 'signup' %}" method="post">
+        {% csrf_token %} <!-- Django requires a CSRF token for form submissions -->
+        
+        <label for="username">Username:</label>
+        <input type="text" name="username" id="username" required>
+
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" required>
+
+        <label for="email">Email:</label>
+        <input type="email" name="email" id="email" required>
+
+        <button type="submit">Signup</button>
+    </form>
+
+</body>
+</html>

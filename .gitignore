@@ -51,6 +51,13 @@ $RECYCLE.BIN/
 
 # Custom rules (everything added below won't be overriden by 'Generate .gitignore File' if you use 'Update' option)
 
-
+# Virtual environment files
 venv/
 pyvenv.cfg
+Lib/
+site-packages/
+scripts/
+
+# Python cache files
+*.pyc
+__pycache__/

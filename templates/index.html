@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pawsport</title>
+    <style>
+        /* Modal styling */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px; /* Width of modal */
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Pawsport</h1>
+    <!-- Displaying messages (equivalent of Flask's flash messages) -->
+    {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- User's list of dogs -->
+    <h1>Your dogs: </h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Dog Name</th>
+                <th>Breed Name(s)</th>
+                <th>Sex</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dog in dogs %}
+            <tr>
+                <td>{{ dog.dog_name }}</td>
+                <td>{{ dog.breed_names }}</td>
+                <td>{{ dog.sex }}</td>
+                <td>{{ dog.age }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- User's friend's list of dogs -->
+    <h2>Your friends' dogs: </h2>
+    <table>
+        <thead>
+            <tr> 
+                <th>Dog Name</th>
+                <th>Breed Name(s)</th>
+                <th>Sex</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for friend in friends %}
+            <tr>
+                <td>{{ friend.dog_name }}</td>
+                <td>{{ friend.breed_names }}</td>
+                <td>{{ friend.sex }}</td>
+                <td>{{ friend.age }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+        
+</body>
+</html>
