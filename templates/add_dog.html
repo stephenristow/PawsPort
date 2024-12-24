@@ -67,8 +67,8 @@
         <label for="age">Age:</label place>
         <input type="number" name="age" id="age" min="0" max="30" required>
 
-        <label for="breed">Breed:</label>
-        <select name="breed" id="breed" required>
+        <label for="breed_name">Breed:</label>
+        <select name="breed_name" id="breed_name" required>
             {% for breed in breeds %}
               <option value="{{ breed.breed_name }}">{{ breed.breed_name }}</option>
             {% endfor %}

@@ -10,7 +10,7 @@ def login_view(request):
         password = request.POST.get("password")
         user = get_user(username, password)
         if user:
-            request.session['username'] = user[0]
+            request.session['username'] = user
             return redirect('index')
         else:
             valid_username = does_user_exist(username)
