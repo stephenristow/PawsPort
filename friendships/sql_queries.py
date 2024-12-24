@@ -11,13 +11,29 @@ def create_connection():
     return connection
 
 
+def create_new_friend_request(username, friend_username):
+    try: 
+        connection = create_connection()
+        cursor = connection.cursor()
+        query = """
+        INSERT INTO Friendship (username, friend_username, date_connected) VALUES (%s, %s, NULL)
+    """
+        cursor.execute(query, (username, friend_username))
+        connection.commit()
+        cursor.close()
+        connection.close()
+        return True
+    except Exception as e:
+        return False
+
+
 def get_pending_received_requests(username):
     connection = create_connection()
     cursor = connection.cursor()
-    query = """"
-    SELECT username 
-    FROM Friendship
-    WHERE friend_username=%s AND date_connected IS NULL
+    query = """
+    SELECT Friendship.username, GROUP_CONCAT(DISTINCT dog_name SEPARATOR ', ') AS dog_names
+    FROM Friendship INNER JOIN Dog ON Friendship.username=Dog.username
+    WHERE Friendship.friend_username=%s AND date_connected IS NULL
     """
     cursor.execute(query, (username, ))
     requests = cursor.fetchall()
@@ -30,9 +46,9 @@ def get_pending_sent_requests(username):
     connection = create_connection()
     cursor = connection.cursor()
     query = """
-    SELECT friend_username
-    FROM Friendship
-    WHERE username=%s AND date_connected IS NULL
+    SELECT friend_username, GROUP_CONCAT(DISTINCT dog_name SEPARATOR ', ') AS dog_names
+    FROM Friendship INNER JOIN Dog ON Friendship.friend_username=Dog.username
+    WHERE Friendship.username=%s AND date_connected IS NULL
 """
     cursor.execute(query, (username, ))
     requests = cursor.fetchall()
@@ -79,6 +95,7 @@ def reject_friend_request(username, friend_username):
         """
         cursor.execute(query, (friend_username, username))
         cursor.execute(query, (username, friend_username))
+        connection.commit()
         return True
     except Exception as e:
         return False
@@ -97,6 +114,7 @@ def cancel_friend_request(username, friend_username):
         """
         cursor.execute(query, (username, friend_username))
         cursor.execute(query, (friend_username, username))
+        connection.commit()
         return True
     except Exception as e:
         return False
