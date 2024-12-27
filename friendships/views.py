@@ -12,7 +12,7 @@ def send_request(request):
     username = request.session['username']
     friend_username = request.POST.get('friend_username')
     create_new_friend_request(username, friend_username)
-    return redirect("user_profile")
+    return redirect("user_profile", username=friend_username)
 
 def accept_request(request):
     friend_username = request.POST.get("friend_username")

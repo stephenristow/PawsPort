@@ -43,13 +43,19 @@
         </ul>
     {% endif %}
 
-    <p>Currently logged in as {{ username }}!</p>
+    <p>Currently logged in as {{ request.session.username }}!</p>
     <a href="{% url 'logout' %}">Logout</a>
     
-
+    {% if not is_self and not is_friend_already %}
+        <form method="POST" action="{% url 'send_request' %}">
+            {% csrf_token %}
+            <input type="hidden" name="friend_username" value="{{ username }}">
+            <button type="submit">Send Request</button>
+        </form>
+    {% endif %}
 
     <!-- User's list of dogs -->
-    <h1>Your dogs: </h1>
+    <h1>{{ username }}'s dogs: </h1>
     <table>
         <thead>
             <tr>
@@ -57,7 +63,6 @@
                 <th>Breed Name(s)</th>
                 <th>Sex</th>
                 <th>Age</th>
-                <th>Bio</th>
             </tr>
         </thead>
         <tbody>
@@ -71,6 +76,14 @@
             {% endfor %}
         </tbody>
     </table>
+    
+    {% if not is_self and not is_friend_already %}
+        <form method="POST" action="{% url 'send_request' %}">
+            {% csrf_token %}
+            <input type="hidden" name="friend_username" value="{{ username }}">
+            <button type="submit">Send Request</button>
+        </form>
+    {% endif %}
         
 </body>
 </html>

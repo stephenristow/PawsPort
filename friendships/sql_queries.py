@@ -11,6 +11,27 @@ def create_connection():
     return connection
 
 
+def is_friend(username, friend_username):
+    try: 
+        connection = create_connection()
+        cursor = connection.cursor()
+        query = """
+        SELECT username FROM Friendship WHERE (username=%s AND friend_username=%s) OR (username=%s AND friend_username=%s)
+    """
+        cursor.execute(query, (username, friend_username, friend_username, username))
+        friend = cursor.fetchall()
+        cursor.close()
+        connection.close()
+        if friend:
+            print("true")
+            return True
+        else:
+            print("false")
+            return False
+    except Exception as e:
+        return False
+
+
 def create_new_friend_request(username, friend_username):
     try: 
         connection = create_connection()

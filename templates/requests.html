@@ -61,12 +61,12 @@
             <tr>
                 <td>{{ request.username }}</td>
                 <td>{{ request.dog_names }}</td>
-                <form method="POST" action="{{ url 'accept_request' }}">
+                <form method="POST" action="{% url 'accept_request' %}">
                     {% csrf_token %}
                     <input type="hidden" name="friend_username" value="{{ request.username }}">
                     <button type="submit">Accept</button>
                 </form>
-                <form method="POST" action="{{ url 'reject_request' }}">
+                <form method="POST" action="{% url 'reject_request' %}">
                     {% csrf_token %}
                     <input type="hidden" name="friend_username" value="{{ request.username }}">
                     <button type="submit">Reject</button>
@@ -89,11 +89,11 @@
             <tr>
                 <td>{{ request.friend_username }}</td>
                 <td>{{ request.dog_names }}</td>
-                <form method="POST" action="{{ url 'accept_request' }}">
+                <form method="POST" action="{% url 'accept_request' %}">
                     <input type="hidden" name="friend_username" value="{{ request.friend_username }}">
                     <button type="submit">Accept</button>
                 </form>
-                <form method="POST" action="{{ url 'reject_request' }}">
+                <form method="POST" action="{% url 'reject_request' %}">
                     <input type="hidden" name="friend_username" value="{{ request.friend_username }}">
                     <button type="submit">Reject</button>
                 </form>
