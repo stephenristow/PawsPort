@@ -43,9 +43,16 @@
         </ul>
     {% endif %}
 
-    <p>Welcome, {{ username }}!</p>
-    <a href="{% url 'logout' %}">Logout</a>
-    <h1>Add dog</h1>
+    <!-- Navbar -->
+    <nav>
+        <p>Currently logged in as {{ username }}!</p>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'requests_view' %}">Friend Requests</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
+    
     <!-- Add dog form -->
     <form action="{% url 'add_dog' %}" method="post">
         {% csrf_token %} <!-- Django requires a CSRF token for form submissions -->

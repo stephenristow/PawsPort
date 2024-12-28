@@ -4,9 +4,20 @@ from .sql_queries import get_pending_received_requests, get_pending_sent_request
 
 def requests_view(request):
     username = request.session['username']
-    received_requests = get_pending_received_requests(username)
-    sent_requests = get_pending_sent_requests(username)
-    return render(request, "requests.html", {'username':username, 'received_requests':received_requests, 'sent_requests':sent_requests})
+    raw_received_requests = get_pending_received_requests(username)
+    raw_sent_requests = get_pending_sent_requests(username)
+    
+    received_requests = [req for req in raw_received_requests if req.get('username') is not None]
+    sent_requests = [req for req in raw_sent_requests if req.get('username') is not None]
+
+    context = {
+        'username':username, 
+        'received_requests':received_requests, 
+        'sent_requests':sent_requests,
+        'has_received_requests': bool(received_requests),
+        'has_sent_requests': bool(sent_requests)
+    }
+    return render(request, "requests.html", context)
 
 def send_request(request):
     username = request.session['username']

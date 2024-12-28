@@ -43,40 +43,55 @@
         </ul>
     {% endif %}
 
-    <p>Currently logged in as {{ username }}!</p>
-    <a href="{% url 'logout' %}">Logout</a>
+    <!-- Navbar -->
+    <nav>
+        <p>Currently logged in as {{ username }}!</p>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'requests_view' %}">Friend Requests</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
 
-
-    <!-- User's list of dogs -->
-    <h1>Received requests: </h1>
-    <table> 
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Dog Name(s)</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for request in received_requests %}
-            <tr>
-                <td>{{ request.username }}</td>
-                <td>{{ request.dog_names }}</td>
-                <form method="POST" action="{% url 'accept_request' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="friend_username" value="{{ request.username }}">
-                    <button type="submit">Accept</button>
-                </form>
-                <form method="POST" action="{% url 'reject_request' %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="friend_username" value="{{ request.username }}">
-                    <button type="submit">Reject</button>
-                </form>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <!-- User's friend's list of dogs -->
-    <h2>Sent requests: </h2> 
+    <!-- User's pending received friend requests -->
+    <h1>Pending received requests: </h1>
+    {% if has_received_requests %}
+        <table> 
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Dog Name(s)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for request in received_requests %}
+                <tr>
+                    <td>{{ request.username }}</td>
+                    <td>{{ request.dog_names }}</td>
+                    <td>
+                        <form method="POST" action="{% url 'accept_request' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="friend_username" value="{{ request.username }}">
+                            <button type="submit">Accept</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form method="POST" action="{% url 'reject_request' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="friend_username" value="{{ request.username }}">
+                            <button type="submit">Reject</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>User has no pending received requests.</p>
+    {% endif %}
+    <!-- User's pending sent friend requests -->
+    <h2>Pending sent requests: </h2> 
+    {% if has_sent_requests %}
     <table>
         <thead>
             <tr>
@@ -89,18 +104,19 @@
             <tr>
                 <td>{{ request.friend_username }}</td>
                 <td>{{ request.dog_names }}</td>
-                <form method="POST" action="{% url 'accept_request' %}">
-                    <input type="hidden" name="friend_username" value="{{ request.friend_username }}">
-                    <button type="submit">Accept</button>
-                </form>
-                <form method="POST" action="{% url 'reject_request' %}">
-                    <input type="hidden" name="friend_username" value="{{ request.friend_username }}">
-                    <button type="submit">Reject</button>
-                </form>
+                <td>
+                    <form method="POST" action="{% url 'cancel_request' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="friend_username" value="{{ request.friend_username }}">
+                        <button type="submit">Cancel</button>
+                    </form>
+                </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-        
+    {% else %}
+        <p>User has no pending sent requests.</p>
+    {% endif %}
 </body>
 </html>

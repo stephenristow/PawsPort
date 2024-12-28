@@ -43,8 +43,15 @@
         </ul>
     {% endif %}
 
-    <p>Currently logged in as {{ username }}!</p>
-    <a href="{% url 'logout' %}">Logout</a>
+    <!-- Navbar -->
+    <nav>
+        <p>Currently logged in as {{ username }}!</p>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'requests_view' %}">Friend Requests</a></li>
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+        </ul>
+    </nav>
 
 
     <!-- User's list of dogs -->

@@ -61,7 +61,7 @@ def get_dog_friend_list(username):
     query = """
     SELECT Dog.dog_name, GROUP_CONCAT(DISTINCT breed_name SEPARATOR ' / ') AS breed_names, sex, age
     FROM Dog INNER JOIN DogBreed ON Dog.username=DogBreed.username AND Dog.dog_name=DogBreed.dog_name
-    WHERE Dog.username IN (SELECT username FROM Friendship WHERE friend_username=%s) OR Dog.username IN (SELECT friend_username FROM Friendship WHERE username=%s)
+    WHERE Dog.username IN (SELECT username FROM Friendship WHERE friend_username=%s AND date_connected IS NOT NULL) OR Dog.username IN (SELECT friend_username FROM Friendship WHERE username=%s AND date_connected IS NOT NULL)
     GROUP BY Dog.dog_name
 """
     cursor.execute(query, (username, username))

@@ -50,7 +50,7 @@ def create_new_friend_request(username, friend_username):
 
 def get_pending_received_requests(username):
     connection = create_connection()
-    cursor = connection.cursor()
+    cursor = connection.cursor(dictionary=True)
     query = """
     SELECT Friendship.username, GROUP_CONCAT(DISTINCT dog_name SEPARATOR ', ') AS dog_names
     FROM Friendship INNER JOIN Dog ON Friendship.username=Dog.username
@@ -65,7 +65,7 @@ def get_pending_received_requests(username):
 
 def get_pending_sent_requests(username):
     connection = create_connection()
-    cursor = connection.cursor()
+    cursor = connection.cursor(dictionary=True)
     query = """
     SELECT friend_username, GROUP_CONCAT(DISTINCT dog_name SEPARATOR ', ') AS dog_names
     FROM Friendship INNER JOIN Dog ON Friendship.friend_username=Dog.username
@@ -88,18 +88,22 @@ def accept_friend_request(username, friend_username):
         WHERE username=%s and friend_username=%s
         """
         cursor.execute(query, (friend_username, username))
+        print(query)
         query = """
         DELETE FROM Friendship
-        WHERE username=%s AND friendship_username=%s
+        WHERE username=%s AND friend_username=%s
 """
+        print(query)
         cursor.execute(query, (username, friend_username))
         query = """
         INSERT INTO Friendship (username, friend_username, date_connected) VALUES (%s, %s, CURRENT_DATE())
 """
+        print(query)
         cursor.execute(query, (username, friend_username))
         connection.commit()
         return True
     except Exception as e:
+        print(e)
         return False
     finally:
         cursor.close()

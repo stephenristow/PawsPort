@@ -22,7 +22,6 @@ def add_dog_view(request):
         sex = request.POST.get("sex")
         age = request.POST.get("age")
         breed_name = request.POST.get("breed_name")
-        print(username, dog_name, bio, sex, age, breed_name)
         add_new_dog(username, dog_name, bio, sex, age, breed_name)
         messages.success(request, f"Added new dog to your user profile. Welcome {dog_name}!")
         return redirect("dog_profile", username=username, dog_name=dog_name)
