@@ -83,6 +83,11 @@
             {% endfor %}
         </tbody>
     </table>
+
+    {% if is_self %}
+        <button style="background:green; text-align:center;" onclick="CopyText()">Copy User Profile Link</button>
+        <input hidden style="text-align:center;" type="text" value="http://127.0.0.1:8000/user_profile/{{username}}/"id="yourtext">
+    {% endif %}
     
     {% if not is_self and not is_friend_already %}
         <form method="POST" action="{% url 'send_request' %}">
@@ -91,6 +96,14 @@
             <button type="submit">Send Request</button>
         </form>
     {% endif %}
+
+    <script>
+        function CopyText() {
+        var text = document.getElementById('yourtext')
+        text.select();
+        document.execCommand('copy')
+      }
+      </script>
         
 </body>
 </html>

@@ -27,12 +27,12 @@ def get_dog(username, dog_name):
 
 def get_dogs(username):
     connection = create_connection()
-    cursor = connection.cursor()
+    cursor = connection.cursor(dictionary=True)
     query = """
-    SELECT Dog.dog_name, GROUP_CONCAT(DISTINCT breed_name SEPARATOR ' / ') AS breed_names, sex, age
+    SELECT Dog.username, Dog.dog_name, GROUP_CONCAT(DISTINCT breed_name SEPARATOR ' / ') AS breed_names, sex, age
     FROM Dog INNER JOIN DogBreed ON Dog.username=DogBreed.username AND Dog.dog_name=DogBreed.dog_name 
     WHERE Dog.username=%s
-    GROUP BY Dog.dog_name
+    GROUP BY Dog.username, Dog.dog_name
 """
     cursor.execute(query, (username, ))
     dogs = cursor.fetchall()
@@ -59,12 +59,12 @@ def get_dog_friend_list(username):
     connection = create_connection()
     cursor = connection.cursor(dictionary=True)
     query = """
-    SELECT Dog.dog_name, GROUP_CONCAT(DISTINCT breed_name SEPARATOR ' / ') AS breed_names, sex, age
+    SELECT Dog.username, Dog.dog_name, GROUP_CONCAT(DISTINCT breed_name SEPARATOR ' / ') AS breed_names, sex, age
     FROM Dog INNER JOIN DogBreed ON Dog.username=DogBreed.username AND Dog.dog_name=DogBreed.dog_name
-    WHERE Dog.username IN (SELECT username FROM Friendship WHERE friend_username=%s AND date_connected IS NOT NULL) OR Dog.username IN (SELECT friend_username FROM Friendship WHERE username=%s AND date_connected IS NOT NULL)
-    GROUP BY Dog.dog_name
+    WHERE Dog.username IN (SELECT username FROM Friendship WHERE friend_username=%s AND date_connected IS NOT NULL) 
+    GROUP BY Dog.username, Dog.dog_name
 """
-    cursor.execute(query, (username, username))
+    cursor.execute(query, (username, ))
     dogs = cursor.fetchall()
     cursor.close()
     connection.close()
