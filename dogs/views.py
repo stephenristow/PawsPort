@@ -3,10 +3,11 @@ from django.contrib import messages
 from .sql_queries import get_dog, get_dog_friend_list, get_dog_list, add_new_dog, get_breeds
 
 def dog_profile_view(request, username, dog_name):
+    curr_user = request.session['username']
     username = username
     dog = get_dog(username, dog_name)
     friends = get_dog_friend_list(username)
-    return render(request, "dog_profile.html", {"username": username, "dog": dog, "friends": friends})
+    return render(request, "dog_profile.html", {"curr_user": curr_user, "username": username, "dog": dog, "friends": friends})
 
 def dog_list(request):
     username = request.session['username']

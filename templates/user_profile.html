@@ -45,7 +45,7 @@
 
     <!-- Navbar -->
     <nav>
-        <p>Currently logged in as {{ username }}!</p>
+        <p>Currently logged in as {{ curr_user }}!</p>
         <ul>
             <li><a href="{% url 'index' %}">Home</a></li>
             <li><a href="{% url 'requests_view' %}">Friend Requests</a></li>
@@ -75,7 +75,7 @@
         <tbody>
             {% for dog in dogs %}
             <tr>
-                <td>{{ dog.dog_name }}</td>
+                <td><a href="{% url 'dog_profile' username dog.dog_name %}">{{ dog.dog_name }}</a></td>
                 <td>{{ dog.breed_names }}</td>
                 <td>{{ dog.sex }}</td>
                 <td>{{ dog.age }}</td>

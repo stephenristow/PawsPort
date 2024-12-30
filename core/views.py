@@ -13,13 +13,13 @@ def index_view(request):
     return render(request, "index.html", {"username": username, "dogs": dogs, "friends": friends})
 
 def user_profile_view(request, username):
-
+    curr_user = request.session['username']
     dogs = get_dogs(username)
     friends = get_dog_friend_list(username)
-    is_self = request.session['username'] == username
+    is_self = curr_user == username
     if is_self:
         is_friend_already = True
     else:
-        is_friend_already = is_friend(request.session['username'], username)
+        is_friend_already = is_friend(curr_user, username)
 
-    return render(request, "user_profile.html", {"username": username, "dogs": dogs, "friends": friends, "is_self": is_self, "is_friend_already": is_friend_already})
+    return render(request, "user_profile.html", {"curr_user": curr_user, "username": username, "dogs": dogs, "friends": friends, "is_self": is_self, "is_friend_already": is_friend_already})

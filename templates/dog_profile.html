@@ -45,7 +45,7 @@
 
     <!-- Navbar -->
     <nav>
-        <p>Currently logged in as {{ username }}!</p>
+        <p>Currently logged in as {{ curr_user }}!</p>
         <ul>
             <li><a href="{% url 'index' %}">Home</a></li>
             <li><a href="{% url 'requests_view' %}">Friend Requests</a></li>
@@ -54,7 +54,7 @@
     </nav>
 
 
-    <!-- User's list of dogs -->
+    <!-- Dog description -->
     <h1>{{ dog.dog_name }}: </h1>
     <table>
         <thead>
@@ -74,28 +74,8 @@
             </tr>
         </tbody>
     </table>
-    <!-- Dog's list of friends -->
-    <h2>Your dogs' friends: </h2>
-    <table>
-        <thead>
-            <tr> 
-                <th>Dog Name</th>
-                <th>Breed Name(s)</th>
-                <th>Sex</th>
-                <th>Age</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for friend in friends %}
-            <tr>
-                <td>{{ friend.dog_name }}</td>
-                <td>{{ friend.breed_names }}</td>
-                <td>{{ friend.sex }}</td>
-                <td>{{ friend.age }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+    <a href="{% url 'user_profile' username %}">Back to {{dog.dog_name}}'s Parent</a>
         
 </body>
 </html>

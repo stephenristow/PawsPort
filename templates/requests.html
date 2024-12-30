@@ -66,7 +66,7 @@
             <tbody>
                 {% for request in received_requests %}
                 <tr>
-                    <td>{{ request.username }}</td>
+                    <td><a href="{% url 'user_profile' request.username %}">{{ request.username }}</a></td>
                     <td>{{ request.dog_names }}</td>
                     <td>
                         <form method="POST" action="{% url 'accept_request' %}">
@@ -102,7 +102,7 @@
         <tbody>
             {% for request in sent_requests %}
             <tr>
-                <td>{{ request.friend_username }}</td>
+                <td><a href="{% url 'user_profile' request.friend_username %}">{{ request.friend_username }}</a></td>
                 <td>{{ request.dog_names }}</td>
                 <td>
                     <form method="POST" action="{% url 'cancel_request' %}">
