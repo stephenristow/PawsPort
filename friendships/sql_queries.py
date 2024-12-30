@@ -70,6 +70,7 @@ def get_pending_sent_requests(username):
     SELECT friend_username, GROUP_CONCAT(DISTINCT dog_name SEPARATOR ', ') AS dog_names
     FROM Friendship INNER JOIN Dog ON Friendship.friend_username=Dog.username
     WHERE Friendship.username=%s AND date_connected IS NULL
+    GROUP BY friend_username
 """
     cursor.execute(query, (username, ))
     requests = cursor.fetchall()
