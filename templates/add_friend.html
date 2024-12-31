@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pawsse</title>
+    <style>
+        /* Base container for the navbar */
+        .container {
+            display: flex; /* Flexbox layout for alignment */
+            justify-content: center; /* Space between logo and navigation */
+            align-items: center; /* Vertically center items */
+            background-color: #f8f9fa; /* Light background color */
+            padding: 10px 0px; /* Add padding for spacing */
+            width: 100%; /* Full width of the browser */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for effect */
+        }
+
+        /* Banner styling */
+        .banner {
+            padding-top: 10px;
+            padding-bottom: 6px;
+        }
+
+        /* Logo styling */
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-decoration: none;
+            color: #333;
+            padding-right: 10px;
+            padding-bottom: 10px;
+        }
+        
+        /* Meta styling */
+        .meta {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        /* Navbar links */
+        nav ul {
+            list-style-type: none;
+            display: flex; /* Horizontal layout for links */
+            gap: 15px; /* Spacing between links */
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #007bff; /* Blue link color */
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Displaying messages (equivalent of Flask's flash messages) -->
+    {% if messages %}
+        <ul class="flashes">
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div role="banner">
+        <div class="container">
+            <a class="logo" href="{% url 'index'%}">Pawsse</a>
+            <p class="meta">Connect with fellow dog lovers</p>
+
+            <!-- Navbar -->
+            <nav>
+                <p>Currently logged in as {{ username }}!</p>
+                <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'requests_view' %}">Friend Requests</a></li>
+                    <li><a href="{% url 'add_dog' %}">Add New Dog</a></li>
+                    <li><a href="{% url 'user_profile' username %}">User Profile</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </nav>
+        
+        </div>
+    </div>
+    
+    
+    {% if not is_self and not is_friend_already %}
+        <form method="POST" action="{% url 'send_request' %}">
+            {% csrf_token %}
+            <input type="hidden" name="friend_username" value="{{ username }}">
+            <button type="submit">Send Request</button>
+        </form>
+    {% endif %}
+
+    <!-- User's list of dogs -->
+    <h1>{{ username }}'s dogs: </h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Dog Name</th>
+                <th>Breed Name(s)</th>
+                <th>Sex</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dog in dogs %}
+            <tr>
+                <td>{{ dog.dog_name }}</td>
+                <td>{{ dog.breed_names }}</td>
+                <td>{{ dog.sex }}</td>
+                <td>{{ dog.age }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    {% if not is_self and not is_friend_already %}
+        <form method="POST" action="{% url 'send_request' %}">
+            {% csrf_token %}
+            <input type="hidden" name="friend_username" value="{{ username }}">
+            <button type="submit">Send Request</button>
+        </form>
+    {% endif %}
+        
+</body>
+</html>

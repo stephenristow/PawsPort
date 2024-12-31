@@ -2,38 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Pawsport</title>
+    <title>Pawsse</title>
     <style>
-        /* Modal styling */
-        .modal {
-            display: none; /* Hidden by default */
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+        /* Base container for the navbar */
+        .container {
+            display: flex; /* Flexbox layout for alignment */
+            justify-content: center; /* Space between logo and navigation */
+            align-items: center; /* Vertically center items */
+            background-color: #f8f9fa; /* Light background color */
+            padding: 10px 0px; /* Add padding for spacing */
+            width: 100%; /* Full width of the browser */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for effect */
         }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 300px; /* Width of modal */
+
+        /* Banner styling */
+        .banner {
+            padding-top: 10px;
+            padding-bottom: 6px;
         }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
+
+        /* Logo styling */
+        .logo {
+            font-size: 1.5em;
             font-weight: bold;
-            cursor: pointer;
+            text-decoration: none;
+            color: #333;
+            padding-right: 10px;
+            padding-bottom: 10px;
+        }
+        
+        /* Meta styling */
+        .meta {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        /* Navbar links */
+        nav ul {
+            list-style-type: none;
+            display: flex; /* Horizontal layout for links */
+            gap: 15px; /* Spacing between links */
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #007bff; /* Blue link color */
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>Pawsport</h1>
+    
     <!-- Displaying messages (equivalent of Flask's flash messages) -->
     {% if messages %}
         <ul class="flashes">
@@ -43,15 +71,26 @@
         </ul>
     {% endif %}
 
-    <!-- Navbar -->
-    <nav>
-        <p>Currently logged in as {{ curr_user }}!</p>
-        <ul>
-            <li><a href="{% url 'index' %}">Home</a></li>
-            <li><a href="{% url 'requests_view' %}">Friend Requests</a></li>
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-        </ul>
-    </nav>
+    <div role="banner">
+        <div class="container">
+            <a class="logo" href="{% url 'index'%}">Pawsse</a>
+            <p class="meta">Connect with fellow dog lovers</p>
+
+            <!-- Navbar -->
+            <nav>
+                <p>Currently logged in as {{ curr_user }}!</p>
+                <ul>
+                    <li><a href="{% url 'index' %}">Home</a></li>
+                    <li><a href="{% url 'requests_view' %}">Friend Requests</a></li>
+                    <li><a href="{% url 'add_dog' %}">Add New Dog</a></li>
+                    <li><a href="{% url 'user_profile' curr_user %}">User Profile</a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </nav>
+        
+        </div>
+    </div>
+    
     
     {% if not is_self and not is_friend_already %}
         <form method="POST" action="{% url 'send_request' %}">
