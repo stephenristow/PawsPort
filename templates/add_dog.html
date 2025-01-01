@@ -58,6 +58,60 @@
         nav ul li a:hover {
             text-decoration: underline;
         }
+
+        /* Visually hidden labels */
+        .visuallyhidden {
+            border: 0;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+
+        /* Base form for the add new dog form */
+        .new-dog-form {
+            display: flex; /* Flexbox layout for alignment */
+            justify-content: center; /* Space between logo and navigation */
+            align-items: center; /* Vertically center items */
+            background-color: #f8f9fa; /* Light background color */
+            padding: 10px 0px; /* Add padding for spacing */
+            width: 100%; /* Full width of the browser */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for effect */
+        }
+
+        /* Flex container for the form fields */
+        .form-container {
+            display: flex; /* Arrange child divs in a row */
+            justify-content: space-between; /* Add space between divs */
+            align-items: flex-start; /* Align items to the top */
+            gap: 20px; /* Add spacing between the divs */
+            flex-wrap: wrap; /* Wrap divs to the next line if needed (for smaller screens) */
+        }
+
+        /* Styling for individual divs */
+        .name-sex, .age-breed, .bio {
+            flex: 1; /* Allow divs to take equal space */
+            min-width: 150px; /* Minimum width to ensure proper layout */
+        }
+
+        button, input {
+            padding-right: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .dog-name {
+            width: 120px;
+        }
+
+        .dog-bio {
+            width: 300px;
+            height: 45px;
+        }
+
     </style>
 </head>
 <body>
@@ -93,35 +147,46 @@
     
     
     <!-- Add dog form -->
-    <form action="{% url 'add_dog' %}" method="post">
-        {% csrf_token %} <!-- Django requires a CSRF token for form submissions -->
-        
-        <label for="dog_name">Dog name:</label>
-        <input type="text" name="dog_name" id="dog_name" required>
+    <div class="new-dog-form"> 
+        <form action="{% url 'add_dog' %}"method="post">
+            {% csrf_token %} <!-- Django requires a CSRF token for form submissions -->
+            <div class="form-container">
+                <div class="name-sex">
+                    <label class="visuallyhidden" for="dog_name">Dog name:</label>
+                    <input class="dog-name" type="text" name="dog_name" id="dog_name" placeholder="Name" required>
 
-        <label for="bio">Bio:</label >
-        <input type="text" name="bio" id="bio" placeholder="Put whatever information here you think might be helpful for others to know about your dog, e.g. Likes to go for walks/runs, has allergies, is a rescue, etc.">
+                    <label class="visuallyhidden" for="sex">Sex:</label>
+                    <select name="sex" id="sex" placeholder="Sex" required>
+                        <option selected="selected">--Sex--</option>
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="N">Neutered</option>
+                        <option value="S">Spayed</option>
+                    </select>
+                </div>
 
-        <label for="sex">Sex:</label>
-        <select name="sex" id="sex" required>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-            <option value="N">Neutered</option>
-            <option value="S">Spayed</option>
-        </select>
+                <div class="age-breed">
+                    <label class="visuallyhidden" for="age">Age:</label place>
+                    <input type="number" name="age" id="age" min="0" max="30" placeholder="Age" title="In Years" required>
 
-        <label for="age">Age:</label place>
-        <input type="number" name="age" id="age" min="0" max="30" required>
+                    <label class="visuallyhidden" for="breed_name">Breed:</label>
+                    <select name="breed_name" id="breed_name" required>
+                        <option selected="selected">--Breed(s)--</option>
+                        {% for breed in breeds %}
+                        <option value="{{ breed.breed_name }}">{{ breed.breed_name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="bio">
+                    <label class="visuallyhidden" for="bio">Bio:</label >
+                    <input class="dog-bio" type="text" name="bio" id="bio" placeholder="Bio" title="Put whatever information here you think might be helpful for others to know about your dog, e.g. Likes to go for walks/runs, has allergies, is a rescue, etc.">
+                </div>
+            </div>
 
-        <label for="breed_name">Breed:</label>
-        <select name="breed_name" id="breed_name" required>
-            {% for breed in breeds %}
-              <option value="{{ breed.breed_name }}">{{ breed.breed_name }}</option>
-            {% endfor %}
-        </select>
-
-        <button type="submit">Add dog</button>
-    </form>
+            <button class="button" type="submit">Add dog</button>
+        </form>
+    </div>
         
 </body>
 </html>
