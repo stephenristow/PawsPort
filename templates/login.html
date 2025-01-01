@@ -2,12 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Pawsse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* Apply the font globally */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Styling for specific elements */
+        h1, h2, h3 {
+            font-weight: 700; /* Bold for headings */
+        }
+
+        p, input, select, button {
+            font-weight: 400; /* Regular for other text */
+        }
+
+        /* Login form */
+        .login-form {
+            display: flex; /* Flexbox layout for alignment */
+            flex-direction: column /* switch to vertical stacking */;
+            justify-content: space-evenly; /* Space between items */
+            align-items: center; /* Vertically center items */
+            background-color: #f8f9fa; /* Light background color */
+            padding: 50px 0px; /* Add padding for spacing */
+            width: 100%; /* Full width of the browser */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for effect */
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column; /* Stack form elements vertically */
+            gap: 10px; /* Add spacing between form inputs and buttons */
+        }
+
+        .signup-info {
+            margin-top: 20px; /* Add some space above the signup-info */
+        }
+    </style>
+    
 </head>
 <body>
-    <h1>Login</h1>
 
-    <!-- Displaying messages (equivalent of Flask's flash messages) -->
+    <!-- Displaying messages -->
     {% if messages %}
         <ul class="flashes">
         {% for message in messages %}
@@ -15,21 +54,28 @@
         {% endfor %}
         </ul>
     {% endif %}
+    
+    <div class="login-form">
+        <h1>Login</h1>
 
-    <!-- Login form -->
-    <form action="{% url 'login' %}" method="post">
-        {% csrf_token %} <!-- Django requires a CSRF token for form submissions -->
-        
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required>
+        <!-- Login form -->
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required>
+        <form class="form" action="{% url 'login' %}" method="post">
+            {% csrf_token %} 
+            
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required>
 
-        <button type="submit">Login</button>
-    </form>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required>
 
-    Not a user yet. Sign up <a href="{% url 'signup' %}">here</a>. 
+            <button type="submit">Login</button>
+        </form>
+
+        <div class="signup-info">
+            Not a user yet? Sign up <a href="{% url 'signup' %}">here</a>. 
+        </div>
+    </div>
     
 </body>
 </html>

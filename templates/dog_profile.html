@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Pawsse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        
+        /* Apply the font globally */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Styling for specific elements */
+        h1, h2, h3 {
+            font-weight: 700; /* Bold for headings */
+        }
+
+        p, input, select, button {
+            font-weight: 400; /* Regular for other text */
+        }
+
         /* Base container for the navbar */
         .container {
             display: flex; /* Flexbox layout for alignment */
@@ -62,7 +78,7 @@
 </head>
 <body>
     
-    <!-- Displaying messages (equivalent of Flask's flash messages) -->
+    <!-- Displaying messages -->
     {% if messages %}
         <ul class="flashes">
         {% for message in messages %}
@@ -94,7 +110,7 @@
 
 
     <!-- Dog description -->
-    <h1>{{ dog.dog_name }}: </h1>
+    <h1>{{ dog.dog_name }}</h1>
     <table>
         <thead>
             <tr>
@@ -114,7 +130,7 @@
         </tbody>
     </table>
 
-    <a href="{% url 'user_profile' username %}">Back to {{dog.dog_name}}'s Parent</a>
+    <a href="{% url 'user_profile' username %}">Go to {{dog.dog_name}}'s Parent</a>
         
 </body>
 </html>

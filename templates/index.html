@@ -3,7 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Pawsse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* Apply the font globally */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Styling for specific elements */
+        h1, h2, h3 {
+            font-weight: 700; /* Bold for headings */
+        }
+
+        p, input, select, button {
+            font-weight: 400; /* Regular for other text */
+        }
+
         /* Base container for the navbar */
         .container {
             display: flex; /* Flexbox layout for alignment */
@@ -19,16 +34,6 @@
         .banner {
             padding-top: 10px;
             padding-bottom: 6px;
-        }
-
-        /* Logo styling */
-        .logo {
-            font-size: 1.5em;
-            font-weight: bold;
-            text-decoration: none;
-            color: #333;
-            padding-right: 10px;
-            padding-bottom: 10px;
         }
         
         /* Meta styling */
@@ -58,11 +63,23 @@
         nav ul li a:hover {
             text-decoration: underline;
         }
+
+        /* Dogs */
+        .dogs {
+            display: flex; /* Flexbox layout for alignment */
+            justify-content: space-evenly; /* Space between logo and navigation */
+            align-items: center; /* Vertically center items */
+            background-color: #f8f9fa; /* Light background color */
+            padding: 10px 0px; /* Add padding for spacing */
+            width: 100%; /* Full width of the browser */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for effect */
+        }
+
     </style>
 </head>
 <body>
     
-    <!-- Displaying messages (equivalent of Flask's flash messages) -->
+    <!-- Displaying messages -->
     {% if messages %}
         <ul class="flashes">
         {% for message in messages %}
@@ -91,51 +108,57 @@
         </div>
     </div>
     
-
-    <!-- User's list of dogs -->
-    <h1>Your dogs: </h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Dog Name</th>
-                <th>Breed Name(s)</th>
-                <th>Sex</th>
-                <th>Age</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for dog in dogs %}
-            <tr>
-                <td>{{ dog.dog_name }}</td>
-                <td>{{ dog.breed_names }}</td>
-                <td>{{ dog.sex }}</td>
-                <td>{{ dog.age }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <!-- User's friend's list of dogs -->
-    <h2>Your friends' dogs: </h2>
-    <table>
-        <thead>
-            <tr> 
-                <th>Dog Name</th>
-                <th>Breed Name(s)</th>
-                <th>Sex</th>
-                <th>Age</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for friend in friends %}
-            <tr>
-                <td>{{ friend.dog_name }}</td>
-                <td>{{ friend.breed_names }}</td>
-                <td>{{ friend.sex }}</td>
-                <td>{{ friend.age }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-        
+    <div class="dogs">
+        <div class="user-dogs">
+            <!-- User's list of dogs -->
+            <h1>Your Dogs</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dog Name</th>
+                        <th>Breed Name(s)</th>
+                        <th>Sex</th>
+                        <th>Age</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dog in dogs %}
+                    <tr>
+                        <td><a href="{% url 'dog_profile' username dog.dog_name %}">{{ dog.dog_name }}</a></td>
+                        <td>{{ dog.breed_names }}</td>
+                        <td>{{ dog.sex }}</td>
+                        <td>{{ dog.age }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="friend-dogs">
+            <!-- User's friend's list of dogs -->
+            <h2>Your Friends' Dogs</h2>
+            <table>
+                <thead>
+                    <tr> 
+                        <th>Dog Name</th>
+                        <th>Owner</th>
+                        <th>Breed Name(s)</th>
+                        <th>Sex</th>
+                        <th>Age</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for friend in friends %}
+                    <tr>
+                        <td><a href="{% url 'dog_profile' friend.username friend.dog_name %}">{{friend.dog_name}}</a></td>
+                        <td><a href="{% url 'user_profile' friend.username %}">{{friend.username}}</a></td>
+                        <td>{{ friend.breed_names }}</td>
+                        <td>{{ friend.sex }}</td>
+                        <td>{{ friend.age }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </body>
 </html>

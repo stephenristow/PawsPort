@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Pawsse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+
+        /* Apply the font globally */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Styling for specific elements */
+        h1, h2, h3 {
+            font-weight: 700; /* Bold for headings */
+        }
+
+        p, input, select, button {
+            font-weight: 400; /* Regular for other text */
+        }
+
         /* Base container for the navbar */
         .container {
             display: flex; /* Flexbox layout for alignment */
@@ -58,11 +74,27 @@
         nav ul li a:hover {
             text-decoration: underline;
         }
+
+        /* Base container for the user info */
+        .user-info {
+            display: flex; /* Flexbox layout for alignment */
+            justify-content: center; /* Space between logo and navigation */
+            align-items: center; /* Vertically center items */
+            background-color: #f8f9fa; /* Light background color */
+            padding: 10px 0px; /* Add padding for spacing */
+            width: 100%; /* Full width of the browser */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for effect */
+        }
+
+        .user-sharing {
+            padding-left: 20px;
+            padding-bottom: 50px;
+        }
     </style>
 </head>
 <body>
     
-    <!-- Displaying messages (equivalent of Flask's flash messages) -->
+    <!-- Displaying messages -->
     {% if messages %}
         <ul class="flashes">
         {% for message in messages %}
@@ -91,51 +123,54 @@
         </div>
     </div>
     
-    
-    {% if not is_self and not is_friend_already %}
-        <form method="POST" action="{% url 'send_request' %}">
-            {% csrf_token %}
-            <input type="hidden" name="friend_username" value="{{ username }}">
-            <button type="submit">Send Request</button>
-        </form>
-    {% endif %}
+    <div class="user-info">
+        {% if not is_self and not is_friend_already %}
+            <form method="POST" action="{% url 'send_request' %}">
+                {% csrf_token %}
+                <input type="hidden" name="friend_username" value="{{ username }}">
+                <button type="submit">Send Request</button>
+            </form>
+        {% endif %}
+        <div class="dogs">
+            <!-- User's list of dogs -->
+            <h1>{{ username }}'s Dogs</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Dog Name</th>
+                        <th>Breed Name(s)</th>
+                        <th>Sex</th>
+                        <th>Age</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for dog in dogs %}
+                    <tr>
+                        <td><a href="{% url 'dog_profile' username dog.dog_name %}">{{ dog.dog_name }}</a></td>
+                        <td>{{ dog.breed_names }}</td>
+                        <td>{{ dog.sex }}</td>
+                        <td>{{ dog.age }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
-    <!-- User's list of dogs -->
-    <h1>{{ username }}'s dogs: </h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Dog Name</th>
-                <th>Breed Name(s)</th>
-                <th>Sex</th>
-                <th>Age</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for dog in dogs %}
-            <tr>
-                <td><a href="{% url 'dog_profile' username dog.dog_name %}">{{ dog.dog_name }}</a></td>
-                <td>{{ dog.breed_names }}</td>
-                <td>{{ dog.sex }}</td>
-                <td>{{ dog.age }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-
-    {% if is_self %}
-        <button style="background:green; text-align:center;" onclick="CopyText()">Copy User Profile Link</button>
-        <input hidden style="text-align:center;" type="text" value="http://127.0.0.1:8000/user_profile/{{username}}/"id="yourtext">
-    {% endif %}
-    
-    {% if not is_self and not is_friend_already %}
-        <form method="POST" action="{% url 'send_request' %}">
-            {% csrf_token %}
-            <input type="hidden" name="friend_username" value="{{ username }}">
-            <button type="submit">Send Request</button>
-        </form>
-    {% endif %}
-
+        <div class="user-sharing">
+            {% if is_self %}
+                <button style="background:green; text-align:center;" onclick="CopyText()">Copy User Profile Link</button>
+                <input hidden style="text-align:center;" type="text" value="http://127.0.0.1:8000/user_profile/{{username}}/"id="yourtext">
+            {% endif %}
+            
+            {% if not is_self and not is_friend_already %}
+                <form method="POST" action="{% url 'send_request' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="friend_username" value="{{ username }}">
+                    <button type="submit">Send Request</button>
+                </form>
+            {% endif %}
+        </div>
+    </div>
     <script>
         function CopyText() {
         var text = document.getElementById('yourtext')

@@ -3,7 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Pawsse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        
+        /* Apply the font globally */
+        body {
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Styling for specific elements */
+        h1, h2, h3 {
+            font-weight: 700; /* Bold for headings */
+        }
+
+        p, input, select, button {
+            font-weight: 400; /* Regular for other text */
+        }
+
         /* Base container for the navbar */
         .container {
             display: flex; /* Flexbox layout for alignment */
@@ -85,9 +101,8 @@
         /* Flex container for the form fields */
         .form-container {
             display: flex; /* Arrange child divs in a row */
-            justify-content: space-between; /* Add space between divs */
-            align-items: flex-start; /* Align items to the top */
-            gap: 20px; /* Add spacing between the divs */
+            justify-content: center; /* Add space between divs */
+            align-items: center; /* Align items to the top */
             flex-wrap: wrap; /* Wrap divs to the next line if needed (for smaller screens) */
         }
 
@@ -97,7 +112,7 @@
             min-width: 150px; /* Minimum width to ensure proper layout */
         }
 
-        button, input {
+        select, button, input {
             padding-right: 10px;
             margin-left: 10px;
             margin-right: 10px;
@@ -116,7 +131,7 @@
 </head>
 <body>
     
-    <!-- Displaying messages (equivalent of Flask's flash messages) -->
+    <!-- Displaying messages -->
     {% if messages %}
         <ul class="flashes">
         {% for message in messages %}
@@ -149,7 +164,7 @@
     <!-- Add dog form -->
     <div class="new-dog-form"> 
         <form action="{% url 'add_dog' %}"method="post">
-            {% csrf_token %} <!-- Django requires a CSRF token for form submissions -->
+            {% csrf_token %} 
             <div class="form-container">
                 <div class="name-sex">
                     <label class="visuallyhidden" for="dog_name">Dog name:</label>

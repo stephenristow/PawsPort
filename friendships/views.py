@@ -3,21 +3,25 @@ from django.contrib import messages
 from .sql_queries import get_pending_received_requests, get_pending_sent_requests, accept_friend_request, reject_friend_request, cancel_friend_request, create_new_friend_request
 
 def requests_view(request):
-    username = request.session['username']
-    raw_received_requests = get_pending_received_requests(username)
-    raw_sent_requests = get_pending_sent_requests(username)
+    try:
+        username = request.session['username']
+        raw_received_requests = get_pending_received_requests(username)
+        raw_sent_requests = get_pending_sent_requests(username)
 
-    received_requests = [req for req in raw_received_requests if req.get('username') is not None]
-    sent_requests = [req for req in raw_sent_requests if req.get('friend_username') is not None]
+        received_requests = [req for req in raw_received_requests if req.get('username') is not None]
+        sent_requests = [req for req in raw_sent_requests if req.get('friend_username') is not None]
 
-    context = {
-        'username':username, 
-        'received_requests':received_requests, 
-        'sent_requests':sent_requests,
-        'has_received_requests': bool(received_requests),
-        'has_sent_requests': bool(sent_requests)
-    }
-    return render(request, "requests.html", context)
+        context = {
+            'username':username, 
+            'received_requests':received_requests, 
+            'sent_requests':sent_requests,
+            'has_received_requests': bool(received_requests),
+            'has_sent_requests': bool(sent_requests)
+        }
+        return render(request, "requests.html", context)
+    except KeyError as e:
+        messages.error(request, f"You are not currently logged in. Please log in first or contact the administrator with this '{e}' in your message.")
+        return redirect("login")
 
 def send_request(request):
     username = request.session['username']
