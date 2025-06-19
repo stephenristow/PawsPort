@@ -3,10 +3,10 @@ import mysql.connector
 
 def create_connection():
     connection = mysql.connector.connect(
-        host = "localhost",
-        user = "root",
-        password = "Scubasteve123!",
-        database = "PawsPort"
+        host="mysql",              # ✅ Must match the service name in mysql.yaml
+        user="pawsportuser",       # ✅ Must match MYSQL_USER from your mysql.yaml
+        password="pawsportpass",   # ✅ Must match MYSQL_PASSWORD from your mysql.yaml
+        database="pawsportdb"      # ✅ Must match MYSQL_DATABASE from your mysql.yaml
     )
     return connection
 

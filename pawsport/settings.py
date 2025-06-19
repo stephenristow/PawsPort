@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,8 @@ SECRET_KEY = 'django-insecure-ya6n%#+d#aw21kfx#nzw4nwr#8=lqe)h8r0i@a%eq-fo_@zn+2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -80,10 +82,10 @@ WSGI_APPLICATION = 'pawsport.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'PawsPort',
-        'USER': 'root',
-        'PASSWORD': 'Scubasteve123!',
-        'HOST': 'localhost',
+        'NAME': 'pawsportdb',
+        'USER': 'pawsportuser',
+        'PASSWORD': 'pawsportpass',
+        'HOST': 'mysql',  # This must match the MySQL service name
         'PORT': '3306',
     }
 }
@@ -124,6 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

@@ -1,0 +1,21 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pawsport
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: pawsport
+  template:
+    metadata:
+      labels:
+        app: pawsport
+    spec:
+      containers:
+      - name: pawsport
+        image: pawsport-app:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8000
