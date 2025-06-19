@@ -82,10 +82,10 @@ WSGI_APPLICATION = 'pawsport.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'pawsportdb',
-        'USER': 'pawsportuser',
-        'PASSWORD': 'pawsportpass',
-        'HOST': 'mysql',  # This must match the MySQL service name
+        'NAME': os.environ.get('MYSQL_DATABASE'),
+        'USER': os.environ.get('MYSQLUSER'),
+        'PASSWORD': os.environ.get('MYSQL_ROOT_PASSWORD'),
+        'HOST': os.environ.get('MYSQLHOST'),  # This must match the MySQL service name
         'PORT': '3306',
     }
 }

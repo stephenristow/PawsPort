@@ -7,11 +7,11 @@ ph = PasswordHasher()
 
 def create_connection():
     connection = mysql.connector.connect(
-        host="mysql",              # ✅ Must match the service name in mysql.yaml
-        user="pawsportuser",       # ✅ Must match MYSQL_USER from your mysql.yaml
-        password="pawsportpass",   # ✅ Must match MYSQL_PASSWORD from your mysql.yaml
-        database="pawsportdb"      # ✅ Must match MYSQL_DATABASE from your mysql.yaml
-    )
+        host=os.environ.get("MYSQLHOST", "mysql"),              # ✅ Must match the service name in mysql.yaml
+        user=os.environ.get("MYSQLUSER","pawsportuser"),       # ✅ Must match MYSQL_USER from your mysql.yaml
+        password=os.environ.get("MYSQL_ROOT_PASSWORD", "pawsportpass"),   # ✅ Must match MYSQL_PASSWORD from your mysql.yaml
+        database=os.environ.get("MYSQL_DATABASE", "pawsportdb")      # ✅ Must match MYSQL_DATABASE from your mysql.yaml
+    
     return connection
 
 def create_user(username, password, email):
