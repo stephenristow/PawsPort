@@ -18,9 +18,9 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy app code and schema.sql
+# Copy app code and init-db.sql
 COPY . .
-COPY /Users/stephenristow/Projects/PawsPort/db-init/init-db.sql /app/init-db.sql
+COPY db-init/init-db.sql /app/init-db.sql
 
 # Collect static files (if any)
 RUN python manage.py collectstatic --noinput || true
