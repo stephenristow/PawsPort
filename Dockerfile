@@ -5,29 +5,27 @@ FROM python:3.10-slim
 # Set working directory
 WORKDIR /app
 
-# Install system deps (including MySQL client!)
+# Install system deps
 RUN apt-get update && apt-get install -y \
-    netcat-openbsd gcc \
-    default-mysql-client \
-    libmariadb-dev \
-    pkg-config \
-    python3-dev
+	netcat-openbsd gcc \
+	gcc \
+	default-libmysqlclient-dev \
+	pkg-config \
+	python3-dev
 
 # Install Python deps
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy app code and init-db.sql
+# Copy app code
 COPY . .
 COPY db-init/init-db.sql /app/init-db.sql
 
-# Collect static files (if any)
-RUN python manage.py collectstatic --noinput || true
+# Run collectstatic if using static files
+RUN python manage.py collectstatic --noinput
 
-# Expose the Django port
+# Expose port
 EXPOSE 8000
 
-# Entrypoint command: run server AND initialize schema if necessary
-CMD sh -c "sleep 5 && mysql -h \"$DB_HOST\" -u \"$DB_USER\" -p\"$DB_PASSWORD\" \"$DB_NAME\" < /app/init-db.sql && python manage.py runserver 0.0.0.0:8000"
-
+CMD ["sh", "-c", "python manage.py migrate && mysql -h \"$MYSQLHOST\" -u \"$MYSQLUSER\" -p\"$MYSQL_PASSWORD\" \"$MYSQL_DATABASE\" < /app/init-db.sql && python manage.py runserver 0.0.0.0:8000"]
 
