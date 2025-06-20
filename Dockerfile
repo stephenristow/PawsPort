@@ -30,5 +30,5 @@ RUN python manage.py collectstatic --noinput
 EXPOSE 8000
 
 #CMD ["sh", "-c", "python manage.py migrate && mysql -h \"$MYSQLHOST\" -u \"$MYSQLUSER\" -p\"$MYSQL_PASSWORD\" \"$MYSQL_DATABASE\" < /app/init-db.sql && python manage.py runserver 0.0.0.0:8000"]
-CMD ["sh", "-c", python manage.py migrate && mysql --protocol=TCP -h $MYSQLHOST -u $MYSQLUSER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /app/init-db.sql && python manage.py runserver 0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py migrate && mysql --protocol=TCP -h $MYSQLHOST -u $MYSQLUSER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /app/init-db.sql && python manage.py runserver 0.0.0.0:8000"]
 
