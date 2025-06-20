@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y \
 	netcat-openbsd gcc \
 	gcc \
 	default-libmysqlclient-dev \
+	libmariadb-dev \
+	mariadb-client \
 	pkg-config \
 	python3-dev
 
