@@ -8,9 +8,8 @@ WORKDIR /app
 # Install system deps (including MySQL client!)
 RUN apt-get update && apt-get install -y \
     netcat-openbsd gcc \
-    default-libmysqlclient-dev \
-    libmysqlclient-dev \
-    mysql-client \
+    default-mysql-client \
+    libmariadb-dev \
     pkg-config \
     python3-dev
 
