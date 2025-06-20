@@ -20,7 +20,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy app code and schema.sql
 COPY . .
-COPY schema.sql /app/schema.sql
+COPY /Users/stephenristow/Projects/PawsPort/db-init/init-db.sql /app/init-db.sql
 
 # Collect static files (if any)
 RUN python manage.py collectstatic --noinput || true
@@ -29,6 +29,6 @@ RUN python manage.py collectstatic --noinput || true
 EXPOSE 8000
 
 # Entrypoint command: run server AND initialize schema if necessary
-CMD sh -c "sleep 5 && mysql -h \"$DB_HOST\" -u \"$DB_USER\" -p\"$DB_PASSWORD\" \"$DB_NAME\" < /app/schema.sql && python manage.py runserver 0.0.0.0:8000"
+CMD sh -c "sleep 5 && mysql -h \"$DB_HOST\" -u \"$DB_USER\" -p\"$DB_PASSWORD\" \"$DB_NAME\" < /app/init-db.sql && python manage.py runserver 0.0.0.0:8000"
 
 
