@@ -1,5 +1,6 @@
 from django.db import connection
 import mysql.connector
+import os
 
 def create_connection():
     connection = mysql.connector.connect(
