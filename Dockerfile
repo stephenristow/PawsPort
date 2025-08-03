@@ -7,13 +7,15 @@ WORKDIR /app
 
 # Install system deps
 RUN apt-get update && apt-get install -y \
-	netcat-openbsd gcc \
+	netcat-openbsd \
 	gcc \
 	default-libmysqlclient-dev \
 	libmariadb-dev \
 	mariadb-client \
 	pkg-config \
-	python3-dev
+	python3-dev && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
 # Install Python deps
 COPY requirements.txt .
